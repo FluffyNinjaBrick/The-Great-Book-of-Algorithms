@@ -2,15 +2,15 @@
 # In a number we can specify single digits - those that show up once, and multiple digits - those
 # that show up many times. A number is prettier than another if it has more single digits than the other,
 # or if those numbers are tied, if it has fewer multiple digits. Implement pretty_sort, a function that sorts
-# the numbers from prettiest to ugliest.
+# the numbers from ugliest to prettiest.
 
 
 # check prettiness of number
 def check_pretty(num):
     counter = [0 for i in range(10)]
     while num:
-        counter[num % 10] += 1
-        num /= 10
+        counter[int(num % 10)] += 1
+        num //= 10
     single = 0
     multi = 0
     for i in range(10):
@@ -27,10 +27,10 @@ def special_counting_sort(num_arr, prettiness_arr, mode):
     # sort by single
     if mode == "single":
         max_single = 0
-        for single, _ in range(len(prettiness_arr)):
+        for single, _ in prettiness_arr:
             if single > max_single:
                 max_single = single
-        count_arr = [0 for i in range(max_single)]
+        count_arr = [0 for i in range(max_single + 1)]
         for i in range(len(num_arr)):
             count_arr[prettiness_arr[i][0]] += 1
         for i in range(len(count_arr) - 1):
@@ -41,10 +41,10 @@ def special_counting_sort(num_arr, prettiness_arr, mode):
     # sort by multiple
     elif mode == "multi":
         max_multi = 0
-        for _, multi in range(len(prettiness_arr)):
+        for _, multi in prettiness_arr:
             if multi > max_multi:
                 max_multi = multi
-        count_arr = [0 for i in range(max_multi)]
+        count_arr = [0 for i in range(max_multi + 1)]
         for i in range(len(num_arr)):
             count_arr[prettiness_arr[i][1]] += 1
         for i in range(len(count_arr) - 1):
@@ -56,7 +56,7 @@ def special_counting_sort(num_arr, prettiness_arr, mode):
 
 
 def pretty_sort(nums):
-    prettiness = []
+    prettiness = [0 for i in range(len(nums))]
     for i in range(len(nums)):
         prettiness[i] = check_pretty(nums[i])
     sorted_by_multi = special_counting_sort(nums, prettiness, "multi")
@@ -65,3 +65,5 @@ def pretty_sort(nums):
 
 
 if __name__ == "__main__":
+    arr = [123, 1234, 4486, 445523, 1222, 322211]
+    print(pretty_sort(arr))
