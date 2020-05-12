@@ -2,6 +2,9 @@ from collections import deque
 
 euler_stack = deque()
 
+# If we know the graph has an Euler cycle, and all we need to do is find it, the implementation becomes
+# much easier, boiling down to a simple DFS
+
 
 def find_euler_cycle(graph, start_node):
     for i in range(len(graph)):
